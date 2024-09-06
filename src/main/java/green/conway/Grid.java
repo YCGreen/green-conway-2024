@@ -19,6 +19,7 @@ public class Grid {
 
     public void nextGen() {
         int[][] copy = copyGrid(grid);
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int liveAdj = checkAdj(y, x);
