@@ -58,7 +58,7 @@ public class Grid {
 
     private int[][] copyGrid(int[][] grid) {
         int[][] copy = new int[height][width];
-        for (int i = 0; i< height; i++) {
+        for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 copy[i][j] = grid[i][j];
             }
