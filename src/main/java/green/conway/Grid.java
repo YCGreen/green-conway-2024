@@ -12,7 +12,7 @@ public class Grid {
     }
 
     public void setAlive(int y, int x) {
-        if(inBounds(y,x)) {
+        if (inBounds(y, x)) {
             grid[y][x] = 1;
         }
     }
