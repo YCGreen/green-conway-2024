@@ -7,25 +7,22 @@ public class Grid {
 
     public Grid(int height, int width) {
         grid = new int[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                grid[i][j] = 0;
-            }
-        }
         this.height = height;
         this.width = width;
     }
 
-    public void setAlive(int cellHeight, int cellWidth) {
-        grid[cellHeight][cellWidth] = 1;
+    public void setAlive(int y, int x) {
+        if(inBounds(y,x)) {
+            grid[y][x] = 1;
+        }
     }
 
     public void nextGen() {
         int[][] copy = copyGrid(grid);
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int liveAdj = checkAdj(i, j);
-                copy[i][j] = turnAlive(grid[i][j], liveAdj) ? 1 : 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int liveAdj = checkAdj(y, x);
+                copy[y][x] = turnAlive(grid[y][x], liveAdj) ? 1 : 0;
             }
         }
 
@@ -36,15 +33,13 @@ public class Grid {
         return cell == 1;
     }
 
-    private int checkAdj(int cellHeight, int cellWidth) {
-        int liveCells = -grid[cellHeight][cellWidth];
+    private int checkAdj(int tgtY, int tgtX) {
+        int liveCells = -grid[tgtY][tgtX];
 
-        for (int i = cellHeight - 1; i <= cellHeight + 1; i++) {
-            for (int j = cellWidth - 1; j <= cellWidth + 1; j++) {
-                if (i >= 0 && i < height && j >= 0 && j < width) {
-                    if (isAlive(grid[i][j])) {
-                        liveCells++;
-                    }
+        for (int y = tgtY - 1; y <= tgtY + 1; y++) {
+            for (int x = tgtX - 1; x <= tgtX + 1; x++) {
+                if (inBounds(y, x) && isAlive(grid[y][x])) {
+                    liveCells++;
                 }
             }
         }
@@ -52,15 +47,19 @@ public class Grid {
         return liveCells;
     }
 
+    private boolean inBounds(int y, int x) {
+        return y >= 0 && y < height && x >= 0 && x < width;
+    }
+
     private boolean turnAlive(int cell, int adj) {
-        return (isAlive(cell) && (adj == 2 || adj == 3)) || (!isAlive(cell) && adj == 3);
+        return adj == 3 || (isAlive(cell) && adj == 2);
     }
 
     private int[][] copyGrid(int[][] grid) {
         int[][] copy = new int[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                copy[i][j] = grid[i][j];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                copy[y][x] = grid[y][x];
             }
         }
 
