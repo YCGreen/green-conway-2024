@@ -11,6 +11,10 @@ public class Grid {
         this.width = width;
     }
 
+    public int[][] getGrid() {
+        return grid;
+    }
+
     public void setAlive(int y, int x) {
         if (inBounds(y, x)) {
             grid[y][x] = 1;
@@ -23,15 +27,15 @@ public class Grid {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int liveAdj = checkAdj(y, x);
-                copy[y][x] = turnAlive(grid[y][x], liveAdj) ? 1 : 0;
+                copy[y][x] = turnAlive(y, x, liveAdj) ? 1 : 0;
             }
         }
 
         grid = copy;
     }
 
-    private boolean isAlive(int cell) {
-        return cell == 1;
+    public boolean isAlive(int y, int x) {
+        return inBounds(y, x) && grid[y][x] == 1;
     }
 
     private int checkAdj(int tgtY, int tgtX) {
@@ -39,7 +43,7 @@ public class Grid {
 
         for (int y = tgtY - 1; y <= tgtY + 1; y++) {
             for (int x = tgtX - 1; x <= tgtX + 1; x++) {
-                if (inBounds(y, x) && isAlive(grid[y][x])) {
+                if (inBounds(y, x) && isAlive(y, x)) {
                     liveCells++;
                 }
             }
@@ -52,8 +56,8 @@ public class Grid {
         return y >= 0 && y < height && x >= 0 && x < width;
     }
 
-    private boolean turnAlive(int cell, int adj) {
-        return adj == 3 || (isAlive(cell) && adj == 2);
+    private boolean turnAlive(int y, int x, int adj) {
+        return adj == 3 || (isAlive(y, x) && adj == 2);
     }
 
     private int[][] copyGrid(int[][] grid) {
