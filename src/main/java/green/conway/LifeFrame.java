@@ -18,7 +18,7 @@ public class LifeFrame extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         lifePanel.add(buttonPanel, BorderLayout.EAST);
 
-        Grid grid = new Grid(20, 20);
+        Grid grid = new Grid(getHeight(), getWidth());
 
         LifeComponent lifeComponent = new LifeComponent(grid);
         lifePanel.add(lifeComponent, BorderLayout.CENTER);
@@ -35,13 +35,26 @@ public class LifeFrame extends JFrame {
         buttonPanel.add(beaconButton);
         beaconButton.addActionListener(evt -> beacon(grid));
 
+        JButton clearButton = new JButton("Clear");
+        buttonPanel.add(clearButton);
+        clearButton.addActionListener(evt -> clearGrid(grid));
+
+        JPanel playPanel = new JPanel();
+        playPanel.setLayout(new BoxLayout(playPanel, BoxLayout.LINE_AXIS));
+        lifePanel.add(playPanel, BorderLayout.SOUTH);
+
+        JButton pauseButton = new JButton("Pause");
+        playPanel.add(pauseButton);
+        pauseButton.addActionListener(evt -> lifeComponent.timer.stop());
+
+        JButton playButton = new JButton("Play");
+        playPanel.add(playButton);
+        playButton.addActionListener(evt -> lifeComponent.timer.start());
 
 
     }
 
-    //need to clear grid before these
-    //automate based on size of grid (no hardcoded numbers)
-    //potential: draw own squares then press start, pause nextgen until button clicked
+    //TODO:automate based on size of grid (no hardcoded numbers)
 
     private void blinker(Grid grid) {
         grid.setAlive(9, 10);
@@ -49,6 +62,7 @@ public class LifeFrame extends JFrame {
         grid.setAlive(11, 10);
     }
 
+    //TODO: deal with me
     private void toad(Grid grid) {
 
     }
@@ -62,6 +76,10 @@ public class LifeFrame extends JFrame {
         grid.setAlive(8, 13);
         grid.setAlive(7, 12);
         grid.setAlive(7, 13);
+    }
+
+    private void clearGrid(Grid grid) {
+        grid.clearGrid();
     }
 
     public static void main(String[] args) {

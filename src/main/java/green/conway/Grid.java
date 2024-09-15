@@ -1,5 +1,7 @@
 package green.conway;
 
+import java.util.Arrays;
+
 public class Grid {
     private int[][] grid;
     private int height;
@@ -70,6 +72,13 @@ public class Grid {
 
         return copy;
     }
+
+    public void clearGrid() {
+        for (int y = 0; y < grid.length; y++) {
+            Arrays.fill(grid[y], 0);
+        }
+    }
+
 
     public String toString() {
         StringBuilder builder = new StringBuilder();

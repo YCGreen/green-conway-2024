@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class LifeComponent extends JComponent {
    private final Grid grid;
-   private Timer timer;
+   public Timer timer;
    private int cellSize = 10;
 
    public LifeComponent(Grid grid) {
@@ -18,6 +18,36 @@ public class LifeComponent extends JComponent {
            repaint();
        });
 
+       addMouseListener(new MouseListener() {
+           @Override
+           public void mouseClicked(MouseEvent e) {
+               grid.setAlive(e.getY() / cellSize, e.getX() / cellSize);
+               repaint();
+           }
+
+           @Override
+           public void mousePressed(MouseEvent e) {
+
+           }
+
+           @Override
+           public void mouseReleased(MouseEvent e) {
+
+           }
+
+           @Override
+           public void mouseEntered(MouseEvent e) {
+
+           }
+
+           @Override
+           public void mouseExited(MouseEvent e) {
+
+           }
+       });
+
+
+
 
    }
 
@@ -25,7 +55,8 @@ public class LifeComponent extends JComponent {
     protected void paintComponent(Graphics g) {
        int[][] lifeGrid = grid.getGrid();
 
-       super.paintComponent(g) ;
+
+
        for(int y = 0; y < lifeGrid.length; y++) {
            for(int x = 0; x < lifeGrid[y].length; x++) {
                if(grid.isAlive(y, x)) {
@@ -33,6 +64,6 @@ public class LifeComponent extends JComponent {
                }
            }
        }
-       timer.start();
+       super.paintComponent(g);
    }
 }
