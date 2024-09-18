@@ -23,10 +23,9 @@ public class LifeComponent extends JComponent {
            public void mouseClicked(MouseEvent e) {
                int yPos = e.getY() / cellSize;
                int xPos = e.getX() / cellSize;
-               if(grid.isAlive(yPos, xPos)) {
+               if (grid.isAlive(yPos, xPos)) {
                    grid.kill(yPos, xPos);
-               }
-               else {
+               } else {
                    grid.setAlive(yPos, xPos);
                }
                repaint();

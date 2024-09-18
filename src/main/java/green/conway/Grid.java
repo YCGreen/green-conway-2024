@@ -80,7 +80,7 @@ public class Grid {
     }
 
     public void kill(int y, int x) {
-        if(inBounds(y, x)) {
+        if (inBounds(y, x)) {
             grid[y][x] = 0;
         }
     }
