@@ -79,6 +79,12 @@ public class Grid {
         }
     }
 
+    public void kill(int y, int x) {
+        if(inBounds(y, x)) {
+            grid[y][x] = 0;
+        }
+    }
+
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
