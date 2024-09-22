@@ -2,6 +2,9 @@ package green.conway;
 
 public class RLEParser {
 
+    private final int XPOS = 2;
+    private final int YPOS = 5;
+
     public RLEParser() {
 
     }
@@ -9,73 +12,85 @@ public class RLEParser {
     public Grid parse(String rle) {
         String[] lines = rle.split("\n");
 
-        //move past comments to xy
-        String xyLine = lines[0];
-        int i = 0;
-        while(xyLine.startsWith("#")) {
-            xyLine = lines[++i];
-        }
+        int currParseIx = findParseIx(lines);
 
-        //extract width and height
-        xyLine = xyLine.replaceAll(",", "");
-        String[] xyCoords = xyLine.split(" ");
-        int width = Integer.parseInt(xyCoords[2]);
-        int height = Integer.parseInt(xyCoords[5]);
+        int[] dimensions = extractDimYX(lines[currParseIx]);
 
-        //create grid
-        Grid grid = new Grid(height, width);
+        Grid grid = new Grid(dimensions[0], dimensions[1]);
 
-        //extract each cell
-        String[] linesByX = lines[++i].split("\\$");
+        String[] cellLinesByX = lines[++currParseIx].split("\\$");
 
-        //parse cells lines
-        for (int y = 0; y < linesByX.length; y++) {
-            int x = 0;
-            //parse each line across
-            for (int charAtK = 0; charAtK < linesByX[y].length(); charAtK++) {
-                char c = linesByX[y].charAt(charAtK);
-                if(c == 'o') {
-                    grid.setAlive(y, x);
-                    x++;
-                }
-                else if(c == 'b') {
-                    x++;
-                }
-                else {
-                    int kk = charAtK;
-                    //if number
-                    while(Character.isDigit(c) && kk+1 < linesByX[y].length()) {
-                        c = linesByX[y].charAt(++kk);
-
-                    }
-                    if(charAtK < kk) {
-                        int num = Integer.parseInt(linesByX[y].substring(charAtK, kk));
-                        char cc = linesByX[y].charAt(kk);
-                        if(cc == 'o') {
-                            for (int j = 0; j < num; j++) {
-                                grid.setAlive(y, x++);
-                            }
-                        }
-                        else {
-                            x += num;
-                        }
-                        charAtK = kk;
-                    }
-
-
-
-                }
-
-
-            }
-        }
-
+        parseRow(cellLinesByX, grid);
 
         return grid;
     }
 
+    private void parseRow(String[] cellLines, Grid grid) {
+        for(int y = 0; y < cellLines.length; y++) {
+            parseCell(cellLines[y], y, grid);
+        }
+    }
+
+    private void parseCell(String cellLine, int y, Grid grid) {
+            int x = 0;
+
+            for (int charIx = 0; charIx < cellLine.length(); charIx++) {
+                char cell = cellLine.charAt(charIx);
+
+                if(cell == 'o') {
+                    grid.setAlive(y, x);
+                    x++;
+                } else if(cell == 'b') {
+                    x++;
+                } else if(Character.isDigit(cell)) {
+                    int num = parseNum(cellLine, charIx);
+
+                    int nextCharIx = charIx + String.valueOf(num).length();
+                    if(nextCharIx < cellLine.length()) {
+                        charIx = nextCharIx;
+                    }
+
+                    if(cellLine.charAt(charIx) == 'o') {
+                        for (int j = 0; j < num; j++) {
+                            grid.setAlive(y, x++);
+                        }
+                    } else {
+                        x += num;
+                    }
+                }
+            }
+        }
+
+    private int parseNum(String cellLine, int startIx) {
+        int endIx = startIx;
+        while (endIx < cellLine.length() && Character.isDigit(cellLine.charAt(endIx))) {
+            endIx++;
+        }
+        return Integer.parseInt(cellLine.substring(startIx, endIx));
+    }
+
+    private int[] extractDimYX(String line) {
+        line = line.replaceAll(",", "");
+        String[] xyCoords = line.split(" ");
+        int width = Integer.parseInt(xyCoords[XPOS]);
+        int height = Integer.parseInt(xyCoords[YPOS]);
+
+        return new int[]{height, width};
+    }
+
+    private int findParseIx(String[] lines) {
+        int i = 0;
+
+        while(lines[i].startsWith("#")) {
+            i++;
+        }
+
+        return i;
+    }
+
+    //TODO: add method
   /*  private String parseComment(String str) {
-        if(str.startsWith("#C")) {}
+
     }*/
 
 }

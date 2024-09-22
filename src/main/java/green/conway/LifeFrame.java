@@ -14,9 +14,13 @@ public class LifeFrame extends JFrame {
         lifePanel.setLayout(new BorderLayout());
         setContentPane(lifePanel);
 
+        JPanel sidePanel = new JPanel();
+        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+        lifePanel.add(sidePanel, BorderLayout.EAST);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        lifePanel.add(buttonPanel, BorderLayout.EAST);
+        sidePanel.add(buttonPanel);
 
         Grid grid = new Grid(getHeight(), getWidth());
 
@@ -38,6 +42,16 @@ public class LifeFrame extends JFrame {
         JButton clearButton = new JButton("Clear");
         buttonPanel.add(clearButton);
         clearButton.addActionListener(evt -> clearGrid(grid));
+
+        JPanel textPanel = new JPanel();
+        JTextArea textInput = new JTextArea(20, 20);
+        textInput.setLineWrap(true);
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(evt -> resetGridViaParser(grid, textInput.getText()));
+
+        textPanel.add(textInput);
+        textPanel.add(enterButton);
+        sidePanel.add(textPanel);
 
         JPanel playPanel = new JPanel();
         playPanel.setLayout(new BoxLayout(playPanel, BoxLayout.LINE_AXIS));
@@ -72,14 +86,13 @@ public class LifeFrame extends JFrame {
     }
 
     private void beacon(Grid grid) {
-        grid.setAlive(9, 10);
-        grid.setAlive(9, 11);
-        grid.setAlive(10, 10);
-        grid.setAlive(10, 11);
-        grid.setAlive(8, 12);
-        grid.setAlive(8, 13);
-        grid.setAlive(7, 12);
-        grid.setAlive(7, 13);
+        String str = "#N Beacon\n" +
+                "#O John Conway\n" +
+                "#C A common period 2 oscillator.\n" +
+                "#C www.conwaylife.com/wiki/index.php?title=Beacon\n" +
+                "x = 4, y = 4, rule = B3/S23\n" +
+                "2o2b$o3b$3bo$2b2o!";
+        resetGridViaParser(grid, str);
     }
 
     private static void resetGridViaParser(Grid grid, String rle) {
