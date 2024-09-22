@@ -27,9 +27,9 @@ public class LifeFrame extends JFrame {
         buttonPanel.add(blinkerButton);
         blinkerButton.addActionListener(evt -> blinker(grid));
 
-        JButton toadButton = new JButton("Toad");
-        buttonPanel.add(toadButton);
-        toadButton.addActionListener(evt -> toad(grid));
+        JButton GosperButton = new JButton("Gosper Glider Gun");
+        buttonPanel.add(GosperButton);
+        GosperButton.addActionListener(evt -> Gosper(grid));
 
         JButton beaconButton = new JButton("Beacon");
         buttonPanel.add(beaconButton);
@@ -54,17 +54,21 @@ public class LifeFrame extends JFrame {
 
     }
 
-    //TODO:automate based on size of grid (no hardcoded numbers)
-
     private void blinker(Grid grid) {
-        grid.setAlive(9, 10);
-        grid.setAlive(10, 10);
-        grid.setAlive(11, 10);
+        String str = "#C this is a blinker\n" +
+                "x = 3, y = 3\n" +
+                "3b$3o$3b";
+        resetGridViaParser(grid, str);
     }
 
-    //TODO: deal with me
-    private void toad(Grid grid) {
-
+    private void Gosper(Grid grid) {
+        String str = "#N Gosper glider gun\n" +
+                        "#C This was the first gun discovered.\n" +
+                        "#C As its name suggests, it was discovered by Bill Gosper.\n" +
+                        "x = 36, y = 9, rule = B3/S23\n" +
+                        "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b" +
+                        "obo$10bo5bo7bo$11bo3bo$12b2o!";
+        resetGridViaParser(grid, str);
     }
 
     private void beacon(Grid grid) {
@@ -76,6 +80,21 @@ public class LifeFrame extends JFrame {
         grid.setAlive(8, 13);
         grid.setAlive(7, 12);
         grid.setAlive(7, 13);
+    }
+
+    private static void resetGridViaParser(Grid grid, String rle) {
+        RLEParser parser = new RLEParser();
+        Grid newGrid = parser.parse(rle);
+
+        //TODO: maybe create iterator for grid so don't have to convert to int[][]
+        int[][] gridAsArr = newGrid.getGrid();
+        for (int i = 0; i < gridAsArr.length; i++) {
+            for (int j = 0; j < gridAsArr[i].length; j++) {
+                if(gridAsArr[i][j] == 1) {
+                    grid.setAlive(i,j);
+                }
+            }
+        }
     }
 
     private void clearGrid(Grid grid) {
