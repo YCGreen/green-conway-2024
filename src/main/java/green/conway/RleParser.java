@@ -2,8 +2,8 @@ package green.conway;
 
 public class RleParser {
 
-    private final int XPOS = 2;
-    private final int YPOS = 5;
+    private final int xpos = 2;
+    private final int ypos = 5;
 
     public RleParser() {
 
@@ -14,7 +14,7 @@ public class RleParser {
 
         int currParseIx = findParseIx(lines);
 
-        int[] dimensions = extractDimYX(lines[currParseIx]);
+        int[] dimensions = extractDim(lines[currParseIx]);
 
         Grid grid = new Grid(dimensions[0], dimensions[1]);
 
@@ -26,7 +26,7 @@ public class RleParser {
     }
 
     private void parseRow(String[] cellLines, Grid grid) {
-        for(int y = 0; y < cellLines.length; y++) {
+        for (int y = 0; y < cellLines.length; y++) {
             parseCell(cellLines[y], y, grid);
         }
     }
@@ -37,20 +37,20 @@ public class RleParser {
             for (int charIx = 0; charIx < cellLine.length(); charIx++) {
                 char cell = cellLine.charAt(charIx);
 
-                if(cell == 'o') {
+                if (cell == 'o') {
                     grid.setAlive(y, x);
                     x++;
-                } else if(cell == 'b') {
+                } else if (cell == 'b') {
                     x++;
-                } else if(Character.isDigit(cell)) {
+                } else if (Character.isDigit(cell)) {
                     int num = parseNum(cellLine, charIx);
 
                     int nextCharIx = charIx + String.valueOf(num).length();
-                    if(nextCharIx < cellLine.length()) {
+                    if (nextCharIx < cellLine.length()) {
                         charIx = nextCharIx;
                     }
 
-                    if(cellLine.charAt(charIx) == 'o') {
+                    if (cellLine.charAt(charIx) == 'o') {
                         for (int j = 0; j < num; j++) {
                             grid.setAlive(y, x++);
                         }
@@ -69,11 +69,11 @@ public class RleParser {
         return Integer.parseInt(cellLine.substring(startIx, endIx));
     }
 
-    private int[] extractDimYX(String line) {
+    private int[] extractDim(String line) {
         line = line.replaceAll(",", "");
         String[] xyCoords = line.split(" ");
-        int width = Integer.parseInt(xyCoords[XPOS]);
-        int height = Integer.parseInt(xyCoords[YPOS]);
+        int width = Integer.parseInt(xyCoords[xpos]);
+        int height = Integer.parseInt(xyCoords[ypos]);
 
         return new int[]{height, width};
     }
@@ -81,7 +81,7 @@ public class RleParser {
     private int findParseIx(String[] lines) {
         int i = 0;
 
-        while(lines[i].startsWith("#")) {
+        while (lines[i].startsWith("#")) {
             i++;
         }
 
@@ -89,7 +89,7 @@ public class RleParser {
     }
 
     //TODO: add method
-  /*  private String parseComment(String str) {
+    /*private String parseComment(String str) {
 
     }*/
 

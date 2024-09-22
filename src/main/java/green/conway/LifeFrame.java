@@ -36,7 +36,7 @@ public class LifeFrame extends JFrame {
 
         JButton gosperButton = new JButton("Gosper Glider Gun");
         buttonPanel.add(gosperButton);
-        gosperButton.addActionListener(evt -> Gosper());
+        gosperButton.addActionListener(evt -> gosper());
 
         JButton beaconButton = new JButton("Beacon");
         buttonPanel.add(beaconButton);
@@ -78,7 +78,7 @@ public class LifeFrame extends JFrame {
         resetGridViaParser(str);
     }
 
-    private void Gosper() {
+    private void gosper() {
         String str = "#N Gosper glider gun\n"
                 + "#C This was the first gun discovered.\n"
                 + "#C As its name suggests, it was discovered by Bill Gosper.\n"
