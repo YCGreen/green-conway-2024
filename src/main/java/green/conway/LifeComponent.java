@@ -6,18 +6,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class LifeComponent extends JComponent {
-   private final Grid grid;
+   private Grid grid;
    public Timer timer;
    private static final int cellSize = 10;
 
    public LifeComponent(Grid grid) {
-       this.grid = grid;
+       resetGrid(grid);
+  }
 
+   public void resetGrid(Grid grid) {
+       this.grid = grid;
+       startTimer(grid);
+       cellsClickable();
+   }
+
+   private void startTimer(Grid grid) {
        timer = new Timer(400, evt -> {
            grid.nextGen();
            repaint();
        });
+   }
 
+   private void cellsClickable() {
        addMouseListener(new MouseListener() {
            @Override
            public void mouseClicked(MouseEvent e) {
@@ -51,8 +61,6 @@ public class LifeComponent extends JComponent {
 
            }
        });
-
-
    }
 
    @Override

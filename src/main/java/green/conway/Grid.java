@@ -73,10 +73,11 @@ public class Grid {
         return copy;
     }
 
-    public void clearGrid() {
+    public Grid clearGrid() {
         for (int y = 0; y < grid.length; y++) {
             Arrays.fill(grid[y], 0);
         }
+        return this;
     }
 
     public void kill(int y, int x) {

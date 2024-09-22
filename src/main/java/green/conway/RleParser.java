@@ -1,11 +1,11 @@
 package green.conway;
 
-public class RLEParser {
+public class RleParser {
 
     private final int XPOS = 2;
     private final int YPOS = 5;
 
-    public RLEParser() {
+    public RleParser() {
 
     }
 
