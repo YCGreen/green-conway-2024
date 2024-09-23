@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LifeFrame extends JFrame {
 
-    Grid grid;
+ //   Grid grid;
     LifeComponent lifeComponent;
 
     public LifeFrame() {
@@ -44,7 +44,8 @@ public class LifeFrame extends JFrame {
 
         JButton clearButton = new JButton("Clear");
         buttonPanel.add(clearButton);
-        clearButton.addActionListener(evt -> lifeComponent.resetGrid(grid.clearGrid()));
+   //     clearButton.addActionListener(evt -> lifeComponent.resetGrid(grid.clearGrid()));
+
 
         JPanel textPanel = new JPanel();
         JTextArea textInput = new JTextArea(20, 20);
@@ -112,7 +113,7 @@ public class LifeFrame extends JFrame {
                 }
             }
         }
-       // lifeComponent.resetGrid(newGrid);
+      //  lifeComponent.resetGrid(newGrid);
     }
 
     public static void main(String[] args) {
