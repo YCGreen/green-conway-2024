@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LifeFrame extends JFrame {
 
- //   Grid grid;
+    public Grid grid;
     LifeComponent lifeComponent;
 
     public LifeFrame() {
