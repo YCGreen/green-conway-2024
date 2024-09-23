@@ -21,7 +21,7 @@ public class LifeComponent extends JComponent {
    }
 
    private void startTimer(Grid grid) {
-       timer = new Timer(400, evt -> {
+       timer = new Timer(4000, evt -> {
            grid.nextGen();
            repaint();
        });

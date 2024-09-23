@@ -4,6 +4,7 @@ public class RleParser {
 
     private final int xpos = 2;
     private final int ypos = 5;
+    private final int beginComment = 3;
 
     public RleParser() {
 
@@ -88,9 +89,18 @@ public class RleParser {
         return i;
     }
 
-    //TODO: add method
-    /*private String parseComment(String str) {
+    public String parseComment(String str) {
+        StringBuilder ret = new StringBuilder();
 
-    }*/
+        String[] lines = str.split("\n");
+
+        int i = 0;
+
+        while (lines[i].startsWith("#")) {
+            ret.append(lines[i++].substring(beginComment) + "\n");
+        }
+
+        return ret.toString();
+    }
 
 }

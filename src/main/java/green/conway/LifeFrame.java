@@ -22,7 +22,7 @@ public class LifeFrame extends JFrame {
         lifePanel.add(sidePanel, BorderLayout.EAST);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new GridLayout(0,1,5,5));
         sidePanel.add(buttonPanel);
 
         grid = new Grid(getHeight(), getWidth());
@@ -49,12 +49,15 @@ public class LifeFrame extends JFrame {
         JPanel textPanel = new JPanel();
         JTextArea textInput = new JTextArea(20, 20);
         textInput.setLineWrap(true);
+
+        JPanel ebPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton enterButton = new JButton("Enter");
         enterButton.addActionListener(evt -> resetGridViaParser(textInput.getText()));
+        ebPanel.add(enterButton);
 
         textPanel.add(textInput);
-        textPanel.add(enterButton);
         sidePanel.add(textPanel);
+        sidePanel.add(ebPanel);
 
         JPanel playPanel = new JPanel();
         playPanel.setLayout(new BoxLayout(playPanel, BoxLayout.LINE_AXIS));
@@ -101,7 +104,15 @@ public class LifeFrame extends JFrame {
     private void resetGridViaParser(String rle) {
         RleParser parser = new RleParser();
         Grid newGrid = parser.parse(rle);
-        lifeComponent.resetGrid(newGrid);
+        int[][] gridAsArr = newGrid.getGrid();
+        for (int i = 0; i < gridAsArr.length; i++) {
+            for (int j = 0; j < gridAsArr[i].length; j++) {
+                if(gridAsArr[i][j] == 1) {
+                    grid.setAlive(i,j);
+                }
+            }
+        }
+       // lifeComponent.resetGrid(newGrid);
     }
 
     public static void main(String[] args) {
