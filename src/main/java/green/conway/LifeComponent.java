@@ -12,52 +12,22 @@ public class LifeComponent extends JComponent {
 
    public LifeComponent(Grid grid) {
        this.grid = grid;
-       timer = new Timer(400, evt -> {
-           grid.nextGen();
-           repaint();
-       });
-       addMouseListener(new MouseListener() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               int yPos = e.getY() / cellSize;
-               int xPos = e.getX() / cellSize;
-               if (grid.isAlive(yPos, xPos)) {
-                   grid.kill(yPos, xPos);
-               } else {
-                   grid.setAlive(yPos, xPos);
-               }
-               repaint();
-           }
-
-           @Override
-           public void mousePressed(MouseEvent e) {
-
-           }
-
-           @Override
-           public void mouseReleased(MouseEvent e) {
-
-           }
-
-           @Override
-           public void mouseEntered(MouseEvent e) {
-
-           }
-
-           @Override
-           public void mouseExited(MouseEvent e) {
-
-           }
-       });
+       startTimer();
+       cellsClickable();
   }
 
-/*   public void resetGrid(Grid grid) {
+   public void clearGrid() {
+       grid.clearGrid();
+   }
+
+   public void resetGrid(Grid grid) {
+       timer.stop();
        this.grid = grid;
-       startTimer(grid);
+       startTimer();
        cellsClickable();
    }
 
-   private void startTimer(Grid grid) {
+   private void startTimer() {
        timer = new Timer(400, evt -> {
            grid.nextGen();
            repaint();
@@ -98,7 +68,7 @@ public class LifeComponent extends JComponent {
 
            }
        });
-   } */
+   }
 
    @Override
     protected void paintComponent(Graphics g) {

@@ -44,7 +44,7 @@ public class LifeFrame extends JFrame {
 
         JButton clearButton = new JButton("Clear");
         buttonPanel.add(clearButton);
-   //     clearButton.addActionListener(evt -> lifeComponent.resetGrid(grid.clearGrid()));
+        clearButton.addActionListener(evt -> lifeComponent.clearGrid());
 
 
         JPanel textPanel = new JPanel();
@@ -105,15 +105,8 @@ public class LifeFrame extends JFrame {
     private void resetGridViaParser(String rle) {
         RleParser parser = new RleParser();
         Grid newGrid = parser.parse(rle);
-        int[][] gridAsArr = newGrid.getGrid();
-        for (int i = 0; i < gridAsArr.length; i++) {
-            for (int j = 0; j < gridAsArr[i].length; j++) {
-                if(gridAsArr[i][j] == 1) {
-                    grid.setAlive(i,j);
-                }
-            }
-        }
-      //  lifeComponent.resetGrid(newGrid);
+        this.grid = newGrid;
+        lifeComponent.resetGrid(newGrid);
     }
 
     public static void main(String[] args) {
