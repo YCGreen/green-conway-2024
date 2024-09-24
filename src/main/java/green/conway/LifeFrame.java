@@ -7,6 +7,8 @@ public class LifeFrame extends JFrame {
 
     public Grid grid;
     LifeComponent lifeComponent;
+    RleParser parser = new RleParser();
+    JTextArea descriptor = new JTextArea();
 
     public LifeFrame() {
         setSize(800, 600);
@@ -72,6 +74,10 @@ public class LifeFrame extends JFrame {
         playPanel.add(playButton);
         playButton.addActionListener(evt -> lifeComponent.timer.start());
 
+        descriptor.setLineWrap(true);
+        descriptor.setEditable(false);
+        descriptor.setText(parser.parseComment(textInput.getText()));
+        playPanel.add(descriptor);
 
     }
 
@@ -103,9 +109,9 @@ public class LifeFrame extends JFrame {
     }
 
     private void resetGridViaParser(String rle) {
-        RleParser parser = new RleParser();
         Grid newGrid = parser.parse(rle);
         this.grid = newGrid;
+        descriptor.setText(parser.parseComment(rle));
         lifeComponent.resetGrid(newGrid);
     }
 
