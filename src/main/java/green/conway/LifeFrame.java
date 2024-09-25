@@ -48,8 +48,6 @@ public class LifeFrame extends JFrame {
         buttonPanel.add(clearButton);
         clearButton.addActionListener(evt -> lifeComponent.clearGrid());
 
-
-        JPanel textPanel = new JPanel();
         JTextArea textInput = new JTextArea(20, 20);
         textInput.setLineWrap(true);
 
@@ -58,6 +56,7 @@ public class LifeFrame extends JFrame {
         enterButton.addActionListener(evt -> resetGridViaParser(textInput.getText()));
         ebPanel.add(enterButton);
 
+        JPanel textPanel = new JPanel();
         textPanel.add(textInput);
         sidePanel.add(textPanel);
         sidePanel.add(ebPanel);
