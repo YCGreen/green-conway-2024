@@ -24,7 +24,7 @@ public class LifeFrame extends JFrame {
         lifePanel.add(sidePanel, BorderLayout.EAST);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0,1,5,5));
+        buttonPanel.setLayout(new GridLayout(0, 1, 5, 5));
         sidePanel.add(buttonPanel);
 
         grid = new Grid(getHeight(), getWidth());
