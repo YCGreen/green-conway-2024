@@ -10,14 +10,14 @@ public class RleParser {
 
     }
 
-    public Grid parse(String rle) {
+    public int[][] parse(String rle) {
         String[] lines = rle.split("\n");
 
         int currParseIx = findParseIx(lines);
 
         int[] dimensions = extractDim(lines[currParseIx]);
 
-        Grid grid = new Grid(dimensions[0], dimensions[1]);
+        int[][] grid = new int[dimensions[0]][dimensions[1]];
 
         String[] cellLinesByX = lines[++currParseIx].split("\\$");
 
@@ -26,20 +26,20 @@ public class RleParser {
         return grid;
     }
 
-    private void parseRow(String[] cellLines, Grid grid) {
+    private void parseRow(String[] cellLines, int[][] grid) {
         for (int y = 0; y < cellLines.length; y++) {
             parseCell(cellLines[y], y, grid);
         }
     }
 
-    private void parseCell(String cellLine, int y, Grid grid) {
+    private void parseCell(String cellLine, int y, int[][] grid) {
             int x = 0;
 
             for (int charIx = 0; charIx < cellLine.length(); charIx++) {
                 char cell = cellLine.charAt(charIx);
 
                 if (cell == 'o') {
-                    grid.setAlive(y, x);
+                    grid[y][x] = 1;
                     x++;
                 } else if (cell == 'b') {
                     x++;
@@ -53,7 +53,7 @@ public class RleParser {
 
                     if (cellLine.charAt(charIx) == 'o') {
                         for (int j = 0; j < num; j++) {
-                            grid.setAlive(y, x++);
+                            grid[y][x++] = 1;
                         }
                     } else {
                         x += num;

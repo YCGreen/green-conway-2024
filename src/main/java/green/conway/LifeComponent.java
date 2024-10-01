@@ -73,10 +73,9 @@ public class LifeComponent extends JComponent {
    @Override
     protected void paintComponent(Graphics g) {
        super.paintComponent(g);
-       int[][] lifeGrid = grid.getGrid();
 
-       for (int y = 0; y < lifeGrid.length; y++) {
-           for (int x = 0; x < lifeGrid[y].length; x++) {
+       for (int y = 0; y < grid.getHeight(); y++) {
+           for (int x = 0; x < grid.getWidth(); x++) {
                if (grid.isAlive(y, x)) {
                    g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                }
