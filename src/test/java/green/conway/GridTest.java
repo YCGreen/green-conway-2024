@@ -59,7 +59,7 @@ public class GridTest {
         grid.setAlive(2, 1);
 
         Grid target = new Grid(5, 3);
-        target.centerGrid(grid);
+        grid.centerGrid(target);
 
         String actual = target.toString();
 

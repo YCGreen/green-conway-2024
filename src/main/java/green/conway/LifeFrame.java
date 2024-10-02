@@ -108,21 +108,23 @@ public class LifeFrame extends JFrame {
     }
 
     private void resetGridViaParser(String rle) {
-        int[][] newGrid = parser.parse(rle);
+        //int[][] newGrid = parser.parse(rle);
         this.grid = new Grid(parser.parse(rle));
         descriptor.setText(parser.parseComment(rle));
-        lifeComponent.resetGrid(grid);
+
+        centerGrid();
     }
 
     private void centerGrid() {
-        Grid scaledGrid = new Grid(getWidth() * 100 , getHeight() * 100);
-        grid.centerGrid(scaledGrid);
-
+        //TODO: remove number
+        Grid newGrid = new Grid(lifeComponent.getHeight() /5, lifeComponent.getWidth() /5);
+        grid.centerGrid(newGrid);
+        this.grid = newGrid;
+        lifeComponent.resetGrid(grid);
     }
 
     public static void main(String[] args) {
         new LifeFrame().setVisible(true);
-
     }
 }
 

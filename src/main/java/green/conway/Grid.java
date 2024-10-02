@@ -82,21 +82,19 @@ public class Grid {
         return copy;
     }
 
-    public void centerGrid(Grid smallGrid) {
-        clearGrid();
+    public void centerGrid(Grid newGrid) {
+        int startX = (newGrid.getWidth() - this.getWidth()) / 2;
+        int startY = (newGrid.getHeight() - this.getHeight()) / 2;
 
-        int startX = (getWidth() - smallGrid.getWidth()) / 2;
-        int startY = (getHeight() - smallGrid.getHeight()) / 2;
-
-        copyGrid(smallGrid, startY, startX);
+        copyGrid(newGrid, startY, startX);
     }
 
-    private void copyGrid(Grid smallGrid, int startY, int startX) {
-        if(getHeight() - startY >= smallGrid.getHeight() && getWidth() - startX >= smallGrid.getWidth()) {
+    private void copyGrid(Grid target, int startY, int startX) {
+        if(target.getHeight() - startY >= getHeight() && target.getWidth() - startX >= getWidth()) {
             for (int y = 0; y < getHeight(); y++) {
                 for (int x = 0; x < getWidth(); x++) {
                     if(grid[y][x] == 1) {
-                        setAlive(y + startY, x + startX);
+                        target.setAlive(y + startY, x + startX);
                     }
                 }
             }
