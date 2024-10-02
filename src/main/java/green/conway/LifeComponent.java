@@ -16,6 +16,10 @@ public class LifeComponent extends JComponent {
        cellsClickable();
   }
 
+  public int getCellSize() {
+       return cellSize;
+  }
+
    public void clearGrid() {
        grid.clearGrid();
    }

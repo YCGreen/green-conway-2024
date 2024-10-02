@@ -2,6 +2,8 @@ package green.conway;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class LifeFrame extends JFrame {
 
@@ -9,11 +11,19 @@ public class LifeFrame extends JFrame {
     LifeComponent lifeComponent;
     RleParser parser = new RleParser();
     JTextArea descriptor = new JTextArea();
+    private final double SCALE = 1.2;
+    private int CELLSIZE;
 
     public LifeFrame() {
         setSize(800, 600);
         setTitle("Conway's Game of Life");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                //TODO: handle resizing smaller
+                centerGrid();
+            }
+        });
 
         JPanel lifePanel = new JPanel();
         lifePanel.setLayout(new BorderLayout());
@@ -31,6 +41,7 @@ public class LifeFrame extends JFrame {
 
         lifeComponent = new LifeComponent(grid);
         lifePanel.add(lifeComponent, BorderLayout.CENTER);
+        CELLSIZE = lifeComponent.getCellSize();
 
         JButton blinkerButton = new JButton("Blinker");
         buttonPanel.add(blinkerButton);
@@ -116,8 +127,8 @@ public class LifeFrame extends JFrame {
     }
 
     private void centerGrid() {
-        //TODO: remove number
-        Grid newGrid = new Grid(lifeComponent.getHeight() /5, lifeComponent.getWidth() /5);
+        Grid newGrid = new Grid((int)(lifeComponent.getHeight() / CELLSIZE * SCALE),
+                (int)(lifeComponent.getWidth() / CELLSIZE * SCALE));
         grid.centerGrid(newGrid);
         this.grid = newGrid;
         lifeComponent.resetGrid(grid);
