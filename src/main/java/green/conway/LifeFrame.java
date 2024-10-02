@@ -109,9 +109,15 @@ public class LifeFrame extends JFrame {
 
     private void resetGridViaParser(String rle) {
         int[][] newGrid = parser.parse(rle);
-        this.grid = new Grid(newGrid);
+        this.grid = new Grid(parser.parse(rle));
         descriptor.setText(parser.parseComment(rle));
         lifeComponent.resetGrid(grid);
+    }
+
+    private void centerGrid() {
+        Grid scaledGrid = new Grid(getWidth() * 100 , getHeight() * 100);
+        grid.centerGrid(scaledGrid);
+
     }
 
     public static void main(String[] args) {
