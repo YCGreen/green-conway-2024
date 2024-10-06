@@ -13,16 +13,6 @@ public class RleParser {
 
     }
 
-    public int[][] parse(URL url) {
-        //convert contents to string
-        return parse(url.toString());
-    }
-
-    public int[][] parse(Path filePath) {
-        //convert contents to string
-        return parse(filePath.toString());
-    }
-
     public int[][] parse(String rle) {
         String[] lines = rle.split("\n");
 
