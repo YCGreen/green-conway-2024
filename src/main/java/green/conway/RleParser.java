@@ -1,5 +1,8 @@
 package green.conway;
 
+import java.net.URL;
+import java.nio.file.Path;
+
 public class RleParser {
 
     private final int xpos = 2;
@@ -8,6 +11,16 @@ public class RleParser {
 
     public RleParser() {
 
+    }
+
+    public int[][] parse(URL url) {
+        //convert contents to string
+        return parse(url.toString());
+    }
+
+    public int[][] parse(Path filePath) {
+        //convert contents to string
+        return parse(filePath.toString());
     }
 
     public int[][] parse(String rle) {

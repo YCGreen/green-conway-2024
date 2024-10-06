@@ -2,8 +2,13 @@ package green.conway;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class LifeFrame extends JFrame {
 
@@ -67,6 +72,10 @@ public class LifeFrame extends JFrame {
         enterButton.addActionListener(evt -> resetGridViaParser(textInput.getText()));
         ebPanel.add(enterButton);
 
+        JButton pasteButton = new JButton("Paste");
+        ebPanel.add(pasteButton);
+        pasteButton.addActionListener(evt -> resetGridPButton());
+
         JPanel textPanel = new JPanel();
         textPanel.add(textInput);
         sidePanel.add(textPanel);
@@ -118,8 +127,24 @@ public class LifeFrame extends JFrame {
         resetGridViaParser(str);
     }
 
+    private void resetGridPButton() {
+        TextProcessor tp = new TextProcessor();
+        try {
+            Object contents = Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+            String contentStr = contents.toString();
+            if(tp.isUrl(contents)) {
+                resetGridViaParser(tp.UrlToString(new URL(contentStr)));
+            } else if((new File(contentStr).isFile())) {
+                resetGridViaParser(tp.FileToString(new File(contentStr)));
+            } else {
+                resetGridViaParser(contentStr);
+            }
+        } catch (UnsupportedFlavorException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void resetGridViaParser(String rle) {
-        //int[][] newGrid = parser.parse(rle);
         this.grid = new Grid(parser.parse(rle));
         descriptor.setText(parser.parseComment(rle));
 
