@@ -100,7 +100,7 @@ public class Grid {
                 }
             }
         }
-}
+    }
 
 
     public void clearGrid() {
