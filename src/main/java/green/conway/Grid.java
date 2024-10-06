@@ -95,7 +95,7 @@ public class Grid {
 
         for (int y = 0; y < endHeight; y++) {
             for (int x = 0; x < endWidth; x++) {
-                if(orig.isAlive(y, x)) {
+                if (orig.isAlive(y, x)) {
                     setAlive(y + startY, x + startX);
                 }
             }
