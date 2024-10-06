@@ -25,7 +25,6 @@ public class LifeFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                //TODO: handle resizing smaller
                 centerGrid();
             }
         });

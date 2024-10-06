@@ -90,15 +90,17 @@ public class Grid {
     }
 
     private void copyGrid(Grid target, int startY, int startX) {
-        if(target.getHeight() - startY >= getHeight() && target.getWidth() - startX >= getWidth()) {
-            for (int y = 0; y < getHeight(); y++) {
-                for (int x = 0; x < getWidth(); x++) {
+        int endHeight = Math.min(getHeight(), target.getHeight() - startY);
+        int endWidth = Math.min(getWidth(), target.getWidth() - startX);
+
+            for (int y = 0; y < endHeight; y++) {
+                for (int x = 0; x < endWidth; x++) {
                     if(grid[y][x] == 1) {
                         target.setAlive(y + startY, x + startX);
                     }
                 }
             }
-        }
+
     }
 
 
