@@ -14,15 +14,15 @@ public class TextProcessorTest {
         try {
             TextProcessor tp = new TextProcessor();
             URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
-            String actual = tp.UrlToString(url);
+            String actual = tp.urlToString(url);
 
             actual = normalizeSeparators(actual);
-            String expected = "#N Acorn\n" +
-                    "#O Charles Corderman\n" +
-                    "#C A methuselah with lifespan 5206.\n" +
-                    "#C www.conwaylife.com/wiki/index.php?title=Acorn\n" +
-                    "x = 7, y = 3, rule = B3/S23\n" +
-                    "bo5b$3bo3b$2o2b3o!";
+            String expected = "#N Acorn\n"
+                    + "#O Charles Corderman\n"
+                    + "#C A methuselah with lifespan 5206.\n"
+                    + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
+                    + "x = 7, y = 3, rule = B3/S23\n"
+                    + "bo5b$3bo3b$2o2b3o!";
             expected = normalizeSeparators(expected);
 
             assertEquals(expected, actual);
@@ -37,15 +37,15 @@ public class TextProcessorTest {
         try {
             TextProcessor tp = new TextProcessor();
             File file = new File("/Users/yaelgreen/IdeaProjects/green-conway-2024/Files/rleTestFile.txt");
-            String actual = tp.FileToString(file);
+            String actual = tp.fileToString(file);
 
             actual = normalizeSeparators(actual);
-            String expected = "#N Acorn\n" +
-                    "#O Charles Corderman\n" +
-                    "#C A methuselah with lifespan 5206.\n" +
-                    "#C www.conwaylife.com/wiki/index.php?title=Acorn\n" +
-                    "x = 7, y = 3, rule = B3/S23\n" +
-                    "bo5b$3bo3b$2o2b3o!";
+            String expected = "#N Acorn\n"
+                    + "#O Charles Corderman\n"
+                    + "#C A methuselah with lifespan 5206.\n"
+                    + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
+                    + "x = 7, y = 3, rule = B3/S23\n"
+                    + "bo5b$3bo3b$2o2b3o!";
             expected = normalizeSeparators(expected);
 
             assertEquals(expected, actual);

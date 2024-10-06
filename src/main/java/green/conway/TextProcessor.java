@@ -12,18 +12,18 @@ public class TextProcessor {
 
     }
 
-    public String UrlToString(URL url) {
+    public String urlToString(URL url) {
 
         InputStream in = null;
         try {
             in = url.openStream();
-            return  IOUtils.toString( in );
+            return  IOUtils.toString(in);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String FileToString(File file) {
+    public String fileToString(File file) {
         FileInputStream fisTargetFile = null;
         try {
             fisTargetFile = new FileInputStream(file);

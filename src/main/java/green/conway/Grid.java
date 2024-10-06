@@ -71,6 +71,13 @@ public class Grid {
         return adj == 3 || (isAlive(y, x) && adj == 2);
     }
 
+    public void centerGrid(Grid newGrid) {
+        int startX = (this.getWidth() - newGrid.getWidth()) / 2;
+        int startY = (this.getHeight() - newGrid.getHeight()) / 2;
+
+        copyGrid(newGrid, startY, startX);
+    }
+
     private int[][] copyGrid(int[][] grid) {
         int[][] copy = new int[getHeight()][getWidth()];
         for (int y = 0; y < getHeight(); y++) {
@@ -80,13 +87,6 @@ public class Grid {
         }
 
         return copy;
-    }
-
-    public void centerGrid(Grid newGrid) {
-        int startX = (this.getWidth() - newGrid.getWidth()) / 2;
-        int startY = (this.getHeight() - newGrid.getHeight()) / 2;
-
-        copyGrid(newGrid, startY, startX);
     }
 
     private void copyGrid(Grid orig, int startY, int startX) {

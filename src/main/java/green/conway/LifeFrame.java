@@ -135,9 +135,9 @@ public class LifeFrame extends JFrame {
             Object contents = Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
             String contentStr = contents.toString();
             if(tp.isUrl(contents)) {
-                resetGridViaParser(tp.UrlToString(new URL(contentStr)));
+                resetGridViaParser(tp.urlToString(new URL(contentStr)));
             } else if((new File(contentStr).isFile())) {
-                resetGridViaParser(tp.FileToString(new File(contentStr)));
+                resetGridViaParser(tp.fileToString(new File(contentStr)));
             } else {
                 resetGridViaParser(contentStr);
             }
