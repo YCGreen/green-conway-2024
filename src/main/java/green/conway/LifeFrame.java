@@ -2,42 +2,86 @@ package green.conway;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class LifeFrame extends JFrame {
+
+    public Grid grid;
+    LifeComponent lifeComponent;
+    RleParser parser = new RleParser();
+    JTextArea descriptor = new JTextArea();
+    private final double SCALE = 1.2;
+    private int CELLSIZE;
 
     public LifeFrame() {
         setSize(800, 600);
         setTitle("Conway's Game of Life");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                centerGrid();
+            }
+        });
 
         JPanel lifePanel = new JPanel();
         lifePanel.setLayout(new BorderLayout());
         setContentPane(lifePanel);
 
+        JPanel sidePanel = new JPanel();
+        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
+        lifePanel.add(sidePanel, BorderLayout.EAST);
+
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        lifePanel.add(buttonPanel, BorderLayout.EAST);
+        buttonPanel.setLayout(new GridLayout(0, 1, 5, 5));
+        sidePanel.add(buttonPanel);
 
-        Grid grid = new Grid(getHeight(), getWidth());
+        grid = new Grid(getHeight(), getWidth());
 
-        LifeComponent lifeComponent = new LifeComponent(grid);
+        lifeComponent = new LifeComponent(grid);
         lifePanel.add(lifeComponent, BorderLayout.CENTER);
+        CELLSIZE = lifeComponent.getCellSize();
 
         JButton blinkerButton = new JButton("Blinker");
         buttonPanel.add(blinkerButton);
-        blinkerButton.addActionListener(evt -> blinker(grid));
+        blinkerButton.addActionListener(evt -> blinker());
 
-        JButton toadButton = new JButton("Toad");
-        buttonPanel.add(toadButton);
-        toadButton.addActionListener(evt -> toad(grid));
+        JButton gosperButton = new JButton("Gosper Glider Gun");
+        buttonPanel.add(gosperButton);
+        gosperButton.addActionListener(evt -> gosper());
 
         JButton beaconButton = new JButton("Beacon");
         buttonPanel.add(beaconButton);
-        beaconButton.addActionListener(evt -> beacon(grid));
+        beaconButton.addActionListener(evt -> beacon());
 
         JButton clearButton = new JButton("Clear");
         buttonPanel.add(clearButton);
-        clearButton.addActionListener(evt -> clearGrid(grid));
+        clearButton.addActionListener(evt -> lifeComponent.clearGrid());
+
+        JTextArea textInput = new JTextArea(20, 20);
+        textInput.setLineWrap(true);
+        textInput.setWrapStyleWord(true);
+        textInput.setText("Type RLE and click Enter, or click Paste to copy text, " +
+                "URL, or filepath from clipboard");
+
+        JPanel ebPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(evt -> resetGridViaParser(textInput.getText()));
+        ebPanel.add(enterButton);
+
+        JButton pasteButton = new JButton("Paste");
+        ebPanel.add(pasteButton);
+        pasteButton.addActionListener(evt -> resetGridPButton());
+
+        JPanel textPanel = new JPanel();
+        textPanel.add(textInput);
+        sidePanel.add(textPanel);
+        sidePanel.add(ebPanel);
 
         JPanel playPanel = new JPanel();
         playPanel.setLayout(new BoxLayout(playPanel, BoxLayout.LINE_AXIS));
@@ -51,35 +95,70 @@ public class LifeFrame extends JFrame {
         playPanel.add(playButton);
         playButton.addActionListener(evt -> lifeComponent.timer.start());
 
+        descriptor.setLineWrap(true);
+        descriptor.setEditable(false);
+        descriptor.setText(parser.parseComment(textInput.getText()));
+        playPanel.add(descriptor);
 
     }
 
-    //TODO:automate based on size of grid (no hardcoded numbers)
-
-    private void blinker(Grid grid) {
-        grid.setAlive(9, 10);
-        grid.setAlive(10, 10);
-        grid.setAlive(11, 10);
+    private void blinker() {
+        String str = "#C this is a blinker\n"
+                + "x = 3, y = 3\n"
+                + "3b$3o$3b";
+        resetGridViaParser(str);
     }
 
-    //TODO: deal with me
-    private void toad(Grid grid) {
-
+    private void gosper() {
+        String str = "#N Gosper glider gun\n"
+                + "#C This was the first gun discovered.\n"
+                + "#C As its name suggests, it was discovered by Bill Gosper.\n"
+                + "x = 36, y = 9, rule = B3/S23\n"
+                + "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b"
+                + "obo$10bo5bo7bo$11bo3bo$12b2o!";
+        resetGridViaParser(str);
     }
 
-    private void beacon(Grid grid) {
-        grid.setAlive(9, 10);
-        grid.setAlive(9, 11);
-        grid.setAlive(10, 10);
-        grid.setAlive(10, 11);
-        grid.setAlive(8, 12);
-        grid.setAlive(8, 13);
-        grid.setAlive(7, 12);
-        grid.setAlive(7, 13);
+    private void beacon() {
+        String str = "#N Beacon\n"
+                + "#O John Conway\n"
+                + "#C A common period 2 oscillator.\n"
+                + "#C www.conwaylife.com/wiki/index.php?title=Beacon\n"
+                + "x = 4, y = 4, rule = B3/S23\n"
+                + "2o2b$o3b$3bo$2b2o!";
+        resetGridViaParser(str);
     }
 
-    private void clearGrid(Grid grid) {
-        grid.clearGrid();
+    private void resetGridPButton() {
+        TextProcessor tp = new TextProcessor();
+        try {
+            Object contents = Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+            String contentStr = contents.toString();
+            if(tp.isUrl(contents)) {
+                resetGridViaParser(tp.urlToString(new URL(contentStr)));
+            } else if((new File(contentStr).isFile())) {
+                resetGridViaParser(tp.fileToString(new File(contentStr)));
+            } else {
+                resetGridViaParser(contentStr);
+            }
+        } catch (UnsupportedFlavorException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void resetGridViaParser(String rle) {
+        this.grid = new Grid(parser.parse(rle));
+        descriptor.setText(parser.parseComment(rle));
+
+        centerGrid();
+    }
+
+    private void centerGrid() {
+        Grid newGrid = new Grid((int)(lifeComponent.getHeight() / CELLSIZE * SCALE),
+                (int)(lifeComponent.getWidth() / CELLSIZE * SCALE));
+        newGrid.centerGrid(grid);
+        this.grid = newGrid;
+        lifeComponent.resetGrid(grid);
     }
 
     public static void main(String[] args) {
