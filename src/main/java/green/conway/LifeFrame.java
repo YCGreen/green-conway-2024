@@ -30,9 +30,9 @@ public class LifeFrame extends JFrame {
         });
         grid = new Grid(getHeight(), getWidth());
         lifeComponent = new LifeComponent(grid);
-       // controller.startTimer();
-        controller = new LifeController(this, lifeComponent);
 
+        controller = new LifeController(this, lifeComponent);
+        controller.startTimer();
         CELLSIZE = lifeComponent.getCellSize();
 
         JPanel lifePanel = new JPanel();
@@ -183,7 +183,6 @@ public class LifeFrame extends JFrame {
         newGrid.centerGrid(grid);
         this.grid = newGrid;
         lifeComponent.resetGrid(grid);
-    //    controller.startTimer();
     }
 
     public static void main(String[] args) {

@@ -32,15 +32,15 @@ public class LifeController {
 
     }
 
- /*   public void startTimer() {
+    public void startTimer() {
         view.timer = new Timer(400, evt -> {
             view.grid.nextGen();
             view.repaint();
         });
-    } */
+    }
 
     public void stopTimer() {
-
+        view.timer.stop();
     }
 
     public void toggleCell(int screenY, int screenX) {

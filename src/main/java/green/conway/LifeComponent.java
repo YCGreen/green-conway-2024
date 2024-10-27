@@ -2,6 +2,8 @@ package green.conway;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,7 +14,6 @@ public class LifeComponent extends JComponent {
 
    public LifeComponent(Grid grid) {
        this.grid = grid;
-       startTimer();
   }
 
   public int getCellSize() {
@@ -24,16 +25,7 @@ public class LifeComponent extends JComponent {
    }
 
    public void resetGrid(Grid grid) {
-       timer.stop();
        this.grid = grid;
-       startTimer();
-   }
-
-   private void startTimer() {
-       timer = new Timer(400, evt -> {
-           grid.nextGen();
-           repaint();
-       });
    }
 
    @Override
