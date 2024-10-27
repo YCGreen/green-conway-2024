@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 public class LifeFrame extends JFrame {
 
+    LifeController controller;
     public Grid grid;
     LifeComponent lifeComponent;
     RleParser parser = new RleParser();
@@ -28,10 +28,18 @@ public class LifeFrame extends JFrame {
                 centerGrid();
             }
         });
+        grid = new Grid(getHeight(), getWidth());
+        lifeComponent = new LifeComponent(grid);
+       // controller.startTimer();
+        controller = new LifeController(this, lifeComponent);
+
+        CELLSIZE = lifeComponent.getCellSize();
 
         JPanel lifePanel = new JPanel();
         lifePanel.setLayout(new BorderLayout());
         setContentPane(lifePanel);
+
+        lifePanel.add(lifeComponent, BorderLayout.CENTER);
 
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
@@ -40,12 +48,6 @@ public class LifeFrame extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(0, 1, 5, 5));
         sidePanel.add(buttonPanel);
-
-        grid = new Grid(getHeight(), getWidth());
-
-        lifeComponent = new LifeComponent(grid);
-        lifePanel.add(lifeComponent, BorderLayout.CENTER);
-        CELLSIZE = lifeComponent.getCellSize();
 
         JButton blinkerButton = new JButton("Blinker");
         buttonPanel.add(blinkerButton);
@@ -100,6 +102,37 @@ public class LifeFrame extends JFrame {
         descriptor.setText(parser.parseComment(textInput.getText()));
         playPanel.add(descriptor);
 
+        cellsClickable();
+
+    }
+
+    private void cellsClickable() {
+        lifeComponent.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.toggleCell(e.getY(), e.getX());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     private void blinker() {
@@ -130,23 +163,14 @@ public class LifeFrame extends JFrame {
     }
 
     private void resetGridPButton() {
-        TextProcessor tp = new TextProcessor();
         try {
-            Object contents = Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-            String contentStr = contents.toString();
-            if(tp.isUrl(contents)) {
-                resetGridViaParser(tp.urlToString(new URL(contentStr)));
-            } else if((new File(contentStr).isFile())) {
-                resetGridViaParser(tp.fileToString(new File(contentStr)));
-            } else {
-                resetGridViaParser(contentStr);
-            }
+            controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor));
         } catch (UnsupportedFlavorException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void resetGridViaParser(String rle) {
+    public void resetGridViaParser(String rle) {
         this.grid = new Grid(parser.parse(rle));
         descriptor.setText(parser.parseComment(rle));
 
@@ -159,6 +183,7 @@ public class LifeFrame extends JFrame {
         newGrid.centerGrid(grid);
         this.grid = newGrid;
         lifeComponent.resetGrid(grid);
+    //    controller.startTimer();
     }
 
     public static void main(String[] args) {
