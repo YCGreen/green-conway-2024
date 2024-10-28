@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TextProcessorTest {
 
     @Test
-    public void UrlToString() {
+    public void urlToString() {
         try {
             TextProcessor tp = new TextProcessor();
             URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
@@ -33,7 +33,7 @@ public class TextProcessorTest {
     }
 
     @Test
-    public void FileToString() {
+    public void fileToString() {
         try {
             TextProcessor tp = new TextProcessor();
             File file = new File("/Users/yaelgreen/IdeaProjects/green-conway-2024/Files/rleTestFile.txt");

@@ -14,13 +14,13 @@ public class LifeControllerTest {
         LifeComponent view = mock();
         LifeFrame model = mock();
         Grid grid = mock();
-        LifeController controller = new LifeController(model, view);
 
         doReturn(grid).when(view).getGrid();
         doReturn(10).when(view).getCellSize();
         doReturn(100).when(model).getWidth();
         doReturn(100).when(model).getHeight();
 
+        LifeController controller = new LifeController(model, view);
         controller.toggleCell(50, 100);
 
         verify(grid).isAlive(5, 10);
@@ -32,7 +32,6 @@ public class LifeControllerTest {
         LifeComponent view = mock();
         LifeFrame model = mock();
         Grid grid = mock();
-        LifeController controller = new LifeController(model, view);
 
         doReturn(grid).when(view).getGrid();
         doReturn(10).when(view).getCellSize();
@@ -40,6 +39,8 @@ public class LifeControllerTest {
         doReturn(100).when(model).getHeight();
 
         doReturn(true).when(grid).isAlive(5,10);
+
+        LifeController controller = new LifeController(model, view);
         controller.toggleCell(50, 100);
 
         verify(grid).kill(5, 10);
