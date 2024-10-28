@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 public class LifeFrame extends JFrame {
 
@@ -68,8 +66,8 @@ public class LifeFrame extends JFrame {
         JTextArea textInput = new JTextArea(20, 20);
         textInput.setLineWrap(true);
         textInput.setWrapStyleWord(true);
-        textInput.setText("Type RLE and click Enter, or click Paste to copy text, " +
-                "URL, or filepath from clipboard");
+        textInput.setText("Type RLE and click Enter, or click Paste to copy text, "
+                + "URL, or filepath from clipboard");
 
         JPanel ebPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton enterButton = new JButton("Enter");
@@ -78,7 +76,7 @@ public class LifeFrame extends JFrame {
 
         JButton pasteButton = new JButton("Paste");
         ebPanel.add(pasteButton);
-        pasteButton.addActionListener(evt -> resetGridPButton());
+        pasteButton.addActionListener(evt -> resetGridPasteButton());
 
         JPanel textPanel = new JPanel();
         textPanel.add(textInput);
@@ -162,7 +160,7 @@ public class LifeFrame extends JFrame {
         resetGridViaParser(str);
     }
 
-    private void resetGridPButton() {
+    private void resetGridPasteButton() {
         try {
             controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor));
         } catch (UnsupportedFlavorException | IOException e) {
@@ -178,8 +176,8 @@ public class LifeFrame extends JFrame {
     }
 
     private void centerGrid() {
-        Grid newGrid = new Grid((int)(lifeComponent.getHeight() / CELLSIZE * SCALE),
-                (int)(lifeComponent.getWidth() / CELLSIZE * SCALE));
+        Grid newGrid = new Grid ((int) (lifeComponent.getHeight() / CELLSIZE * SCALE),
+                (int) (lifeComponent.getWidth() / CELLSIZE * SCALE));
         newGrid.centerGrid(grid);
         this.grid = newGrid;
         lifeComponent.resetGrid(grid);

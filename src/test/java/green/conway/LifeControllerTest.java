@@ -38,7 +38,7 @@ public class LifeControllerTest {
         doReturn(100).when(model).getWidth();
         doReturn(100).when(model).getHeight();
 
-        doReturn(true).when(grid).isAlive(5,10);
+        doReturn(true).when(grid).isAlive(5, 10);
 
         LifeController controller = new LifeController(model, view);
         controller.toggleCell(50, 100);

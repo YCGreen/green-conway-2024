@@ -58,7 +58,7 @@ public class TextProcessorTest {
     public void isUrl() {
         TextProcessor tp = new TextProcessor();
         Object str = "https://conwaylife.com/patterns/acorn.rle";
-        assert(tp.isUrl(str));
+        assert (tp.isUrl(str));
     }
 
     private String normalizeSeparators(String str) {

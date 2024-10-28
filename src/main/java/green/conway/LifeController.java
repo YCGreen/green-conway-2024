@@ -19,9 +19,9 @@ public class LifeController {
         TextProcessor tp = new TextProcessor();
         try {
             String contentStr = cbContents.toString();
-            if(tp.isUrl(cbContents)) {
+            if (tp.isUrl(cbContents)) {
                 model.resetGridViaParser(tp.urlToString(new URL(contentStr)));
-            } else if((new File(contentStr).isFile())) {
+            } else if ((new File(contentStr).isFile())) {
                 model.resetGridViaParser(tp.fileToString(new File(contentStr)));
             } else {
                 model.resetGridViaParser(contentStr);
