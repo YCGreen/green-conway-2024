@@ -16,6 +16,10 @@ public class LifeComponent extends JComponent {
        this.grid = grid;
   }
 
+  public Grid getGrid() {
+       return grid;
+  }
+
   public int getCellSize() {
        return cellSize;
   }

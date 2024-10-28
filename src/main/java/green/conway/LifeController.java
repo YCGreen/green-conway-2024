@@ -46,10 +46,10 @@ public class LifeController {
     public void toggleCell(int screenY, int screenX) {
         int yPos = screenY / view.getCellSize();
         int xPos = screenX / view.getCellSize();
-        if (view.grid.isAlive(yPos, xPos)) {
-            view.grid.kill(yPos, xPos);
+        if (view.getGrid().isAlive(yPos, xPos)) {
+            view.getGrid().kill(yPos, xPos);
         } else {
-            view.grid.setAlive(yPos, xPos);
+            view.getGrid().setAlive(yPos, xPos);
         }
         view.repaint();
 
