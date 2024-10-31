@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class LifeComponent extends JComponent {
-   public Grid grid;
+   private Grid grid;
    public Timer timer;
    private static final int cellSize = 10;
 

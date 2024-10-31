@@ -15,16 +15,15 @@ public class LifeController {
         this.view = view;
     }
 
-    public void paste(Object cbContents) {
+    public void paste(String cbContents) {
         TextProcessor tp = new TextProcessor();
         try {
-            String contentStr = cbContents.toString();
             if (tp.isUrl(cbContents)) {
-                model.resetGridViaParser(tp.urlToString(new URL(contentStr)));
-            } else if ((new File(contentStr).isFile())) {
-                model.resetGridViaParser(tp.fileToString(new File(contentStr)));
+                model.resetGridViaParser(tp.urlToString(new URL(cbContents)));
+            } else if ((new File(cbContents).isFile())) {
+                model.resetGridViaParser(tp.fileToString(new File(cbContents)));
             } else {
-                model.resetGridViaParser(contentStr);
+                model.resetGridViaParser(cbContents);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -32,9 +31,9 @@ public class LifeController {
 
     }
 
-    public void startTimer() {
+    public void startTimer(Grid grid) {
         view.timer = new Timer(400, evt -> {
-            view.grid.nextGen();
+            grid.nextGen();
             view.repaint();
         });
     }

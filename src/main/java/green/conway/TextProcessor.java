@@ -12,35 +12,19 @@ public class TextProcessor {
 
     }
 
-    public String urlToString(URL url) {
-
-        InputStream in = null;
-        try {
-            in = url.openStream();
-            return  IOUtils.toString(in);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public String urlToString(URL url) throws IOException {
+        InputStream in = url.openStream();
+        return IOUtils.toString(in);
     }
 
-    public String fileToString(File file) {
-        FileInputStream fisTargetFile = null;
-        try {
-            fisTargetFile = new FileInputStream(file);
-            return IOUtils.toString(fisTargetFile, "UTF-8");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public String fileToString(File file) throws IOException {
+        FileInputStream fisTargetFile = new FileInputStream(file);
+        return IOUtils.toString(fisTargetFile, "UTF-8");
     }
 
-    public boolean isUrl(Object url) {
-        try {
-            String urlString = url.toString();
-            new URL(urlString);
-            return true;
-        } catch (MalformedURLException e) {
-            return false;
-        }
+    public boolean isUrl(String url) throws MalformedURLException {
+        new URL(url);
+        return true;
     }
 
 }

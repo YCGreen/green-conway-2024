@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class LifeFrame extends JFrame {
 
-    LifeController controller;
-    public Grid grid;
-    LifeComponent lifeComponent;
-    RleParser parser = new RleParser();
-    JTextArea descriptor = new JTextArea();
+    private LifeController controller;
+    private Grid grid;
+    private LifeComponent lifeComponent;
+    private RleParser parser = new RleParser();
+    private JTextArea descriptor = new JTextArea();
     private final double SCALE = 1.2;
     private int CELLSIZE;
 
@@ -30,7 +30,7 @@ public class LifeFrame extends JFrame {
         lifeComponent = new LifeComponent(grid);
 
         controller = new LifeController(this, lifeComponent);
-        controller.startTimer();
+        controller.startTimer(grid);
         CELLSIZE = lifeComponent.getCellSize();
 
         JPanel lifePanel = new JPanel();
@@ -162,7 +162,7 @@ public class LifeFrame extends JFrame {
 
     private void resetGridPasteButton() {
         try {
-            controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor));
+            controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString());
         } catch (UnsupportedFlavorException | IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,15 +3,17 @@ package green.conway;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TextProcessorTest {
 
     @Test
-    public void urlToString() {
-        try {
+    public void urlToString() throws IOException {
             TextProcessor tp = new TextProcessor();
             URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
             String actual = tp.urlToString(url);
@@ -26,15 +28,11 @@ public class TextProcessorTest {
             expected = normalizeSeparators(expected);
 
             assertEquals(expected, actual);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
     @Test
-    public void fileToString() {
-        try {
+    public void fileToString() throws IOException {
             TextProcessor tp = new TextProcessor();
             File file = new File("/Users/yaelgreen/IdeaProjects/green-conway-2024/Files/rleTestFile.txt");
             String actual = tp.fileToString(file);
@@ -49,16 +47,14 @@ public class TextProcessorTest {
             expected = normalizeSeparators(expected);
 
             assertEquals(expected, actual);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Test
-    public void isUrl() {
+    public void isUrl() throws MalformedURLException {
         TextProcessor tp = new TextProcessor();
-        Object str = "https://conwaylife.com/patterns/acorn.rle";
-        assert (tp.isUrl(str));
+        String str = "https://conwaylife.com/patterns/acorn.rle";
+        assertTrue(tp.isUrl(str));
     }
 
     private String normalizeSeparators(String str) {

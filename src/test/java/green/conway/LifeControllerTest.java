@@ -3,6 +3,9 @@ package green.conway;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -48,20 +51,16 @@ public class LifeControllerTest {
     }
 
     @Test
-    public void paste() {
+    public void paste() throws IOException {
         LifeComponent view = mock();
         LifeFrame model = mock();
         LifeController controller = new LifeController(model, view);
         TextProcessor tp = new TextProcessor();
 
-        try {
-            File file = new File("/Users/yaelgreen/IdeaProjects/green-conway-2024/Files/rleTestFile.txt");
-            String actual = tp.fileToString(file);
-            controller.paste(file);
-            verify(model).resetGridViaParser(actual);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
+        String actual = tp.urlToString(url);
+        controller.paste("https://conwaylife.com/patterns/acorn.rle");
+        verify(model).resetGridViaParser(actual);
 
 
     }
