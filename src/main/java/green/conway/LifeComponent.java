@@ -2,66 +2,42 @@ package green.conway;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class LifeComponent extends JComponent {
-   private final Grid grid;
+   private Grid grid;
    public Timer timer;
    private static final int cellSize = 10;
 
    public LifeComponent(Grid grid) {
        this.grid = grid;
+  }
 
-       timer = new Timer(400, evt -> {
-           grid.nextGen();
-           repaint();
-       });
+  public Grid getGrid() {
+       return grid;
+  }
 
-       addMouseListener(new MouseListener() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               int yPos = e.getY() / cellSize;
-               int xPos = e.getX() / cellSize;
-               if (grid.isAlive(yPos, xPos)) {
-                   grid.kill(yPos, xPos);
-               } else {
-                   grid.setAlive(yPos, xPos);
-               }
-               repaint();
-           }
+  public int getCellSize() {
+       return cellSize;
+  }
 
-           @Override
-           public void mousePressed(MouseEvent e) {
+   public void clearGrid() {
+       grid.clearGrid();
+   }
 
-           }
-
-           @Override
-           public void mouseReleased(MouseEvent e) {
-
-           }
-
-           @Override
-           public void mouseEntered(MouseEvent e) {
-
-           }
-
-           @Override
-           public void mouseExited(MouseEvent e) {
-
-           }
-       });
-
-
+   public void resetGrid(Grid grid) {
+       this.grid = grid;
    }
 
    @Override
     protected void paintComponent(Graphics g) {
        super.paintComponent(g);
-       int[][] lifeGrid = grid.getGrid();
 
-       for (int y = 0; y < lifeGrid.length; y++) {
-           for (int x = 0; x < lifeGrid[y].length; x++) {
+       for (int y = 0; y < grid.getHeight(); y++) {
+           for (int x = 0; x < grid.getWidth(); x++) {
                if (grid.isAlive(y, x)) {
                    g.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                }
