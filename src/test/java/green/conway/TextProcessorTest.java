@@ -14,39 +14,41 @@ public class TextProcessorTest {
 
     @Test
     public void urlToString() throws IOException {
-            TextProcessor tp = new TextProcessor();
-            URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
-            String actual = tp.urlToString(url);
+        TextProcessor tp = new TextProcessor();
+        URL url = new URL("https://conwaylife.com/patterns/acorn.rle");
+        String actual = tp.urlToString(url);
 
-            actual = normalizeSeparators(actual);
-            String expected = "#N Acorn\n"
-                    + "#O Charles Corderman\n"
-                    + "#C A methuselah with lifespan 5206.\n"
-                    + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
-                    + "x = 7, y = 3, rule = B3/S23\n"
-                    + "bo5b$3bo3b$2o2b3o!";
-            expected = normalizeSeparators(expected);
+        actual = normalizeSeparators(actual);
+        String expected = "#N Acorn\n"
+                + "#O Charles Corderman\n"
+                + "#C A methuselah with lifespan 5206.\n"
+                + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
+                + "x = 7, y = 3, rule = B3/S23\n"
+                + "bo5b$3bo3b$2o2b3o!";
+        expected = normalizeSeparators(expected);
 
-            assertEquals(expected, actual);
+        assertEquals(expected, actual);
 
     }
 
     @Test
     public void fileToString() throws IOException {
-            TextProcessor tp = new TextProcessor();
-            File file = new File("/Users/yaelgreen/IdeaProjects/green-conway-2024/Files/rleTestFile.txt");
-            String actual = tp.fileToString(file);
+        TextProcessor tp = new TextProcessor();
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("rleTestFile.txt").getFile());
+       // File file = new File("resources/rleTestFile.txt");
+        String actual = tp.fileToString(file);
 
-            actual = normalizeSeparators(actual);
-            String expected = "#N Acorn\n"
-                    + "#O Charles Corderman\n"
-                    + "#C A methuselah with lifespan 5206.\n"
-                    + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
-                    + "x = 7, y = 3, rule = B3/S23\n"
-                    + "bo5b$3bo3b$2o2b3o!";
-            expected = normalizeSeparators(expected);
+        actual = normalizeSeparators(actual);
+        String expected = "#N Acorn\n"
+                + "#O Charles Corderman\n"
+                + "#C A methuselah with lifespan 5206.\n"
+                + "#C www.conwaylife.com/wiki/index.php?title=Acorn\n"
+                + "x = 7, y = 3, rule = B3/S23\n"
+                + "bo5b$3bo3b$2o2b3o!";
+        expected = normalizeSeparators(expected);
 
-            assertEquals(expected, actual);
+        assertEquals(expected, actual);
 
     }
 
