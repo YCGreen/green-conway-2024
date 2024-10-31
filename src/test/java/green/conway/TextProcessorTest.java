@@ -36,7 +36,6 @@ public class TextProcessorTest {
         TextProcessor tp = new TextProcessor();
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("rleTestFile.txt").getFile());
-       // File file = new File("resources/rleTestFile.txt");
         String actual = tp.fileToString(file);
 
         actual = normalizeSeparators(actual);

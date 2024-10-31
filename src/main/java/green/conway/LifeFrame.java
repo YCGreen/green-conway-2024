@@ -162,7 +162,8 @@ public class LifeFrame extends JFrame {
 
     private void resetGridPasteButton() {
         try {
-            controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString());
+            controller.paste(Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .getData(DataFlavor.stringFlavor).toString());
         } catch (UnsupportedFlavorException | IOException e) {
             throw new RuntimeException(e);
         }
